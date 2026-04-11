@@ -55,7 +55,7 @@ export default function ChannelPage() {
   }
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4">
+    <div className="min-h-screen pt-32 md:pt-24 pb-16 px-4">
       <div className="max-w-7xl mx-auto">
         <div 
           className={`mb-8 transition-all duration-1000 ${
