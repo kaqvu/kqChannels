@@ -8,6 +8,7 @@ interface Channel {
   name: string
   slug: string
   sources: string[]
+  imageUrl?: string
 }
 
 export default function AdminPage() {
@@ -24,6 +25,7 @@ export default function AdminPage() {
   const [editingChannel, setEditingChannel] = useState<Channel | null>(null)
   const [channelName, setChannelName] = useState("")
   const [channelSources, setChannelSources] = useState<string[]>([""])
+  const [channelImageUrl, setChannelImageUrl] = useState("")
   const [isSaving, setIsSaving] = useState(false)
   const [showDeletePopup, setShowDeletePopup] = useState(false)
   const [deletePopupMounted, setDeletePopupMounted] = useState(false)
@@ -76,6 +78,7 @@ export default function AdminPage() {
     setEditingChannel(null)
     setChannelName("")
     setChannelSources([""])
+    setChannelImageUrl("")
     setShowChannelPopup(true)
     setTimeout(() => {
       setPopupMounted(true)
@@ -86,6 +89,7 @@ export default function AdminPage() {
     setEditingChannel(channel)
     setChannelName(channel.name)
     setChannelSources(channel.sources)
+    setChannelImageUrl(channel.imageUrl || "")
     setShowChannelPopup(true)
     setTimeout(() => {
       setPopupMounted(true)
@@ -165,12 +169,18 @@ export default function AdminPage() {
       }
     }
 
+    if (channelImageUrl && !urlRegex.test(channelImageUrl)) {
+      setNotificationMessage('Logo musi być prawidłowym linkiem (http:// lub https://)')
+      setShowNotification(true)
+      return
+    }
+
     setIsSaving(true)
     try {
       const method = editingChannel ? 'PUT' : 'POST'
       const body = editingChannel 
-        ? { id: editingChannel.id, name: channelName, sources: validSources }
-        : { name: channelName, sources: validSources }
+        ? { id: editingChannel.id, name: channelName, sources: validSources, imageUrl: channelImageUrl || undefined }
+        : { name: channelName, sources: validSources, imageUrl: channelImageUrl || undefined }
 
       const response = await fetch('/api/admin/channels', {
         method,
@@ -388,6 +398,20 @@ export default function AdminPage() {
                     placeholder="np. Canal Plus Sport 1"
                   />
                   <p className="text-xs text-muted-foreground mt-1">Tylko litery, cyfry i spacje</p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-foreground mb-2">
+                    Logo kanału (opcjonalne)
+                  </label>
+                  <input
+                    type="text"
+                    value={channelImageUrl}
+                    onChange={(e) => setChannelImageUrl(e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg bg-background border border-border/50 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors"
+                    placeholder="https://example.com/logo.png"
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Link do obrazka (jpg, png, svg)</p>
                 </div>
 
                 <div>

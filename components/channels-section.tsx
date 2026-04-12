@@ -9,6 +9,7 @@ interface Channel {
   name: string
   slug: string
   sources: string[]
+  imageUrl?: string
 }
 
 export function ChannelsSection() {
@@ -80,7 +81,24 @@ export function ChannelsSection() {
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-transparent" />
                   <div className="relative z-10 flex items-center gap-4">
-                    <Hash className="w-6 h-6 text-primary flex-shrink-0" />
+                    {channel.imageUrl ? (
+                      <img 
+                        src={channel.imageUrl} 
+                        alt={channel.name}
+                        className="w-20 h-10 rounded-lg object-contain flex-shrink-0 transition-transform duration-300 bg-secondary/30"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none'
+                          const parent = e.currentTarget.parentElement
+                          if (parent) {
+                            const fallback = document.createElement('div')
+                            fallback.innerHTML = '<svg class="w-6 h-6 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"></path></svg>'
+                            parent.insertBefore(fallback.firstChild!, e.currentTarget)
+                          }
+                        }}
+                      />
+                    ) : (
+                      <Hash className="w-6 h-6 text-primary flex-shrink-0" />
+                    )}
                     <div className="flex-1">
                       <h3 className="text-xl font-bold text-foreground mb-1">
                         {channel.name}

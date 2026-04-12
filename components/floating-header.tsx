@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 export function FloatingHeader() {
   const pathname = usePathname()
   const [channelName, setChannelName] = useState<string | null>(null)
+  const [channelImage, setChannelImage] = useState<string | null>(null)
   
   useEffect(() => {
     if (pathname.startsWith('/channel/')) {
@@ -23,6 +24,7 @@ export function FloatingHeader() {
       if (response.ok) {
         const data = await response.json()
         setChannelName(data.channel?.name || null)
+        setChannelImage(data.channel?.imageUrl || null)
       }
     } catch (error) {
       console.error('Error fetching channel name:', error)
@@ -78,9 +80,19 @@ export function FloatingHeader() {
         <nav className="flex items-center gap-1 px-1.5 py-1.5 rounded-full bg-secondary/80 backdrop-blur-md border border-border/50 pointer-events-auto animate-in fade-in slide-in-from-top-2 duration-500">
           <Link
             href="#"
-            className="px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap bg-foreground text-background"
+            className="px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap bg-foreground text-background flex items-center gap-2"
             onClick={(e) => e.preventDefault()}
           >
+            {channelImage ? (
+              <img 
+                src={channelImage} 
+                alt={channelName}
+                className="w-10 h-5 rounded object-contain bg-secondary/30"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
+            ) : null}
             {channelName}
           </Link>
         </nav>

@@ -9,6 +9,7 @@ interface Channel {
   name: string
   slug: string
   sources: string[]
+  imageUrl?: string
 }
 
 export default function ChannelPage() {

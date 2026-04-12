@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { name, sources } = await request.json()
+    const { name, sources, imageUrl } = await request.json()
 
     if (!name || !sources || sources.length === 0) {
       return NextResponse.json({ error: 'Name and at least one source required' }, { status: 400 })
@@ -46,12 +46,18 @@ export async function POST(request: Request) {
 
     const slug = name.toLowerCase().replace(/\s+/g, '-')
 
-    const channelRef = await adminDb.collection('channels').add({
+    const channelData: any = {
       name,
       slug,
       sources,
       createdAt: new Date().toISOString()
-    })
+    }
+
+    if (imageUrl) {
+      channelData.imageUrl = imageUrl
+    }
+
+    const channelRef = await adminDb.collection('channels').add(channelData)
 
     return NextResponse.json({ success: true, id: channelRef.id })
   } catch (error) {
@@ -69,7 +75,7 @@ export async function PUT(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { id, name, sources } = await request.json()
+    const { id, name, sources, imageUrl } = await request.json()
 
     if (!id || !name || !sources || sources.length === 0) {
       return NextResponse.json({ error: 'ID, name and at least one source required' }, { status: 400 })
@@ -82,11 +88,17 @@ export async function PUT(request: Request) {
 
     const slug = name.toLowerCase().replace(/\s+/g, '-')
 
-    await adminDb.collection('channels').doc(id).update({
+    const updateData: any = {
       name,
       slug,
       sources
-    })
+    }
+
+    if (imageUrl) {
+      updateData.imageUrl = imageUrl
+    }
+
+    await adminDb.collection('channels').doc(id).update(updateData)
 
     return NextResponse.json({ success: true })
   } catch (error) {
