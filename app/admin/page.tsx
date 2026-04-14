@@ -299,36 +299,36 @@ export default function AdminPage() {
         <div className="min-h-screen px-4 pt-24 pb-16">
           <div className="w-full max-w-6xl mx-auto">
             <div 
-              className={`mb-8 flex items-center justify-between transition-all duration-1000 ease-out will-change-[opacity,transform] ${
+              className={`mb-6 md:mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-700 ease-out ${
                 mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
               <div>
-                <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-2 md:mb-4">
                   Panel Admina
                 </h1>
-                <p className="text-muted-foreground">
+                <p className="text-sm md:text-base text-muted-foreground">
                   Zarządzaj kanałami kqChannels
                 </p>
               </div>
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 rounded-lg bg-secondary/80 backdrop-blur-md border border-border/50 text-sm font-medium text-foreground hover:bg-secondary hover:scale-105 active:scale-105 transition-all duration-300 touch-action-manipulation"
+                className="px-4 py-2 rounded-lg bg-secondary/80 backdrop-blur-md border border-border/50 text-sm font-medium text-foreground hover:bg-secondary active:scale-95 transition-all duration-200 touch-action-manipulation"
               >
                 Wyloguj
               </button>
             </div>
             
             <div 
-              className={`rounded-2xl bg-secondary/20 border border-border/30 p-8 transition-all duration-1000 delay-200 ease-out will-change-[opacity,transform] ${
+              className={`rounded-2xl bg-secondary/20 border border-border/30 p-4 md:p-6 lg:p-8 transition-all duration-700 delay-150 ease-out ${
                 mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
-              <div className="flex items-start justify-between mb-6">
-                <h2 className="text-2xl font-bold text-foreground">Kanały</h2>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 md:mb-6">
+                <h2 className="text-xl md:text-2xl font-bold text-foreground">Kanały</h2>
                 <button
                   onClick={handleAddChannel}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium transition-all duration-300 hover:bg-primary/90 hover:scale-105 active:scale-105 hover:shadow-lg hover:shadow-primary/20 touch-action-manipulation"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium transition-all duration-200 hover:bg-primary/90 active:scale-95 hover:shadow-lg hover:shadow-primary/20 touch-action-manipulation"
                 >
                   <Plus className="w-4 h-4" />
                   Dodaj kanał
@@ -349,13 +349,13 @@ export default function AdminPage() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleEditChannel(channel)}
-                          className="p-2 rounded-lg bg-secondary/80 border border-border/50 text-foreground hover:bg-secondary hover:scale-110 active:scale-110 transition-all duration-300 touch-action-manipulation"
+                          className="p-2 rounded-lg bg-secondary/80 border border-border/50 text-foreground hover:bg-secondary active:scale-95 transition-all duration-200 touch-action-manipulation"
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDeleteChannel(channel.id, channel.name)}
-                          className="p-2 rounded-lg bg-secondary/80 border border-border/50 text-foreground hover:bg-secondary hover:scale-110 active:scale-110 transition-all duration-300 touch-action-manipulation"
+                          className="p-2 rounded-lg bg-secondary/80 border border-border/50 text-foreground hover:bg-secondary active:scale-95 transition-all duration-200 touch-action-manipulation"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -376,7 +376,7 @@ export default function AdminPage() {
             onClick={handleCancel}
           >
             <div 
-              className={`w-full max-w-md rounded-2xl bg-secondary/95 backdrop-blur-md border border-border/50 p-8 transition-all duration-500 ease-out will-change-[opacity,transform] max-h-[90vh] overflow-y-auto ${
+              className={`w-full max-w-md rounded-2xl bg-secondary/95 backdrop-blur-md border border-border/50 p-6 md:p-8 transition-all duration-300 ease-out max-h-[85vh] overflow-y-auto ${
                 popupMounted ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"
               }`}
               onClick={(e) => e.stopPropagation()}
@@ -430,7 +430,7 @@ export default function AdminPage() {
                       {channelSources.length > 1 && (
                         <button
                           onClick={() => removeSourceField(index)}
-                          className="px-3 py-3 rounded-lg bg-secondary/80 border border-border/50 text-foreground hover:bg-secondary hover:scale-110 active:scale-110 transition-all duration-300 touch-action-manipulation"
+                          className="px-3 py-3 rounded-lg bg-secondary/80 border border-border/50 text-foreground hover:bg-secondary active:scale-95 transition-all duration-200 touch-action-manipulation"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -439,7 +439,7 @@ export default function AdminPage() {
                   ))}
                   <button
                     onClick={addSourceField}
-                    className="inline-flex items-center gap-1 px-3 py-2 rounded-lg bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 hover:scale-105 active:scale-105 transition-all duration-300 touch-action-manipulation"
+                    className="inline-flex items-center gap-1 px-3 py-2 rounded-lg bg-primary/10 text-primary text-sm font-medium hover:bg-primary/20 active:scale-95 transition-all duration-200 touch-action-manipulation"
                   >
                     <Plus className="w-4 h-4" />
                     Dodaj źródło
@@ -451,14 +451,14 @@ export default function AdminPage() {
                 <button
                   onClick={handleSaveChannel}
                   disabled={isSaving}
-                  className="flex-1 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium transition-all duration-300 hover:bg-primary/90 hover:scale-105 active:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 touch-action-manipulation"
+                  className="flex-1 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium transition-all duration-200 hover:bg-primary/90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed touch-action-manipulation"
                 >
                   {isSaving ? 'Zapisywanie...' : 'Zapisz'}
                 </button>
                 <button
                   onClick={handleCancel}
                   disabled={isSaving}
-                  className="flex-1 px-6 py-3 rounded-lg bg-secondary/80 border border-border/50 text-foreground font-medium transition-all duration-300 hover:bg-secondary hover:scale-105 active:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 touch-action-manipulation"
+                  className="flex-1 px-6 py-3 rounded-lg bg-secondary/80 border border-border/50 text-foreground font-medium transition-all duration-200 hover:bg-secondary active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed touch-action-manipulation"
                 >
                   Anuluj
                 </button>
@@ -475,7 +475,7 @@ export default function AdminPage() {
             onClick={cancelDelete}
           >
             <div 
-              className={`w-full max-w-md rounded-2xl bg-secondary/95 backdrop-blur-md border border-border/50 p-8 transition-all duration-500 ease-out will-change-[opacity,transform] ${
+              className={`w-full max-w-md rounded-2xl bg-secondary/95 backdrop-blur-md border border-border/50 p-6 md:p-8 transition-all duration-300 ease-out ${
                 deletePopupMounted ? "opacity-100 scale-100 translate-y-0" : "opacity-0 scale-95 translate-y-4"
               }`}
               onClick={(e) => e.stopPropagation()}
@@ -490,13 +490,13 @@ export default function AdminPage() {
               <div className="flex gap-3">
                 <button
                   onClick={confirmDelete}
-                  className="flex-1 px-6 py-3 rounded-lg bg-destructive text-white font-medium transition-all duration-300 hover:bg-destructive/90 hover:scale-105 active:scale-105 touch-action-manipulation"
+                  className="flex-1 px-6 py-3 rounded-lg bg-destructive text-white font-medium transition-all duration-200 hover:bg-destructive/90 active:scale-95 touch-action-manipulation"
                 >
                   Usuń
                 </button>
                 <button
                   onClick={cancelDelete}
-                  className="flex-1 px-6 py-3 rounded-lg bg-secondary/80 border border-border/50 text-foreground font-medium transition-all duration-300 hover:bg-secondary hover:scale-105 active:scale-105 touch-action-manipulation"
+                  className="flex-1 px-6 py-3 rounded-lg bg-secondary/80 border border-border/50 text-foreground font-medium transition-all duration-200 hover:bg-secondary active:scale-95 touch-action-manipulation"
                 >
                   Anuluj
                 </button>
@@ -525,7 +525,7 @@ export default function AdminPage() {
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           <div 
-            className={`mb-8 text-center transition-all duration-1000 ease-out will-change-[opacity,transform] ${
+            className={`mb-8 text-center transition-all duration-700 ease-out ${
               mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
@@ -539,7 +539,7 @@ export default function AdminPage() {
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div 
-              className={`rounded-2xl bg-secondary/20 border border-border/30 p-8 transition-all duration-1000 delay-200 ease-out ${
+              className={`rounded-2xl bg-secondary/20 border border-border/30 p-6 md:p-8 transition-all duration-700 delay-150 ease-out ${
                 mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
             >
@@ -577,7 +577,7 @@ export default function AdminPage() {
 
               <button
                 type="submit"
-                className="w-full mt-6 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium transition-all duration-300 hover:bg-primary/90 hover:scale-105 active:scale-105 touch-action-manipulation"
+                className="w-full mt-6 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium transition-all duration-200 hover:bg-primary/90 active:scale-95 touch-action-manipulation"
               >
                 Zaloguj
               </button>

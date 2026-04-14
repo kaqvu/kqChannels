@@ -40,11 +40,11 @@ export function FloatingHeader() {
   const isChannelPage = pathname.startsWith('/channel/')
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center gap-2 pt-6 px-4 pointer-events-none">
-      <nav className="flex items-center gap-1 px-1.5 py-1.5 rounded-full bg-secondary/80 backdrop-blur-md border border-border/50 pointer-events-auto max-w-full overflow-x-auto scrollbar-hide">
+    <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center gap-2 pt-4 md:pt-6 px-4 pointer-events-none">
+      <nav className="flex items-center gap-1 px-1.5 py-1.5 rounded-full bg-secondary/80 backdrop-blur-md border border-border/50 pointer-events-auto">
         <Link
           href="/channels"
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+          className={`px-3 md:px-4 py-1.5 rounded-full text-xs md:text-sm font-medium transition-all duration-200 whitespace-nowrap ${
             isActive("/channels")
               ? "bg-foreground text-background"
               : "text-muted-foreground hover:text-foreground"
@@ -55,7 +55,7 @@ export function FloatingHeader() {
         
         <Link
           href="/"
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+          className={`px-3 md:px-4 py-1.5 rounded-full text-xs md:text-sm font-medium transition-all duration-200 whitespace-nowrap ${
             isActive("/") && pathname === "/"
               ? "bg-foreground text-background"
               : "text-muted-foreground hover:text-foreground"
@@ -66,7 +66,7 @@ export function FloatingHeader() {
 
         <Link
           href="/admin"
-          className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+          className={`px-3 md:px-4 py-1.5 rounded-full text-xs md:text-sm font-medium transition-all duration-200 whitespace-nowrap ${
             isActive("/admin")
               ? "bg-foreground text-background"
               : "text-muted-foreground hover:text-foreground"
@@ -77,23 +77,23 @@ export function FloatingHeader() {
       </nav>
       
       {isChannelPage && channelName && (
-        <nav className="flex items-center gap-1 px-1.5 py-1.5 rounded-full bg-secondary/80 backdrop-blur-md border border-border/50 pointer-events-auto animate-in fade-in slide-in-from-top-2 duration-500">
+        <nav className="flex items-center gap-1 px-1.5 py-1.5 rounded-full bg-secondary/80 backdrop-blur-md border border-border/50 pointer-events-auto animate-in fade-in slide-in-from-top-2 duration-500 max-w-[90vw]">
           <Link
             href="#"
-            className="px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap bg-foreground text-background flex items-center gap-2"
+            className="px-3 md:px-4 py-1.5 rounded-full text-xs md:text-sm font-medium transition-all duration-200 bg-foreground text-background flex items-center gap-2 truncate"
             onClick={(e) => e.preventDefault()}
           >
             {channelImage ? (
               <img 
                 src={channelImage} 
-                alt={channelName}
-                className="w-10 h-5 rounded object-contain bg-secondary/30"
+                alt=""
+                className="w-8 h-4 md:w-10 md:h-5 rounded object-contain bg-secondary/30 flex-shrink-0"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none'
                 }}
               />
             ) : null}
-            {channelName}
+            <span className="truncate">{channelName}</span>
           </Link>
         </nav>
       )}

@@ -18,14 +18,14 @@ export function HeroSection() {
       />
       <div className="relative z-10 text-center px-4">
         <h1
-          className={`text-[clamp(4rem,15vw,10rem)] font-bold tracking-[-0.04em] leading-none mb-6 transition-all duration-1000 ease-out ${
+          className={`text-[clamp(4rem,15vw,10rem)] font-bold tracking-[-0.04em] leading-none mb-6 transition-all duration-700 ease-out ${
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
           kq
         </h1>
         <p 
-          className={`text-muted-foreground text-lg md:text-xl max-w-md mx-auto transition-all duration-1000 delay-200 ease-out text-balance ${
+          className={`text-muted-foreground text-lg md:text-xl max-w-md mx-auto transition-all duration-700 delay-150 ease-out text-balance ${
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
         >
