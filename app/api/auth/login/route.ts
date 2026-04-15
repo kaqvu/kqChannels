@@ -1,26 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { adminDb } from '@/lib/firebase-admin'
 
 export async function POST(request: NextRequest) {
   try {
     const { username, password } = await request.json()
 
-    const docRef = adminDb.collection('website').doc('credentials')
-    const doc = await docRef.get()
+    const validUsername = process.env.ADMIN_USERNAME
+    const validPassword = process.env.ADMIN_PASSWORD
 
-    if (!doc.exists) {
-      return NextResponse.json({ success: false, message: 'Nieprawidłowy login lub hasło' }, { status: 401 })
+    if (!validUsername || !validPassword) {
+      return NextResponse.json({ success: false, message: 'Admin credentials not configured' }, { status: 401 })
     }
 
-    const data = doc.data()
-    const validLogin = data?.login
-    const validPassword = data?.password
-
-    if (!validLogin || !validPassword) {
-      return NextResponse.json({ success: false, message: 'Nieprawidłowy login lub hasło' }, { status: 401 })
-    }
-
-    if (username === validLogin && password === validPassword) {
+    if (username === validUsername && password === validPassword) {
       const response = NextResponse.json({ success: true })
       
       response.cookies.set('admin_session', 'authenticated', {
@@ -33,10 +24,9 @@ export async function POST(request: NextRequest) {
       return response
     }
 
-    return NextResponse.json({ success: false, message: 'Nieprawidłowy login lub hasło' }, { status: 401 })
+    return NextResponse.json({ success: false, message: 'Invalid username or password' }, { status: 401 })
   } catch (error) {
     console.error('Login error:', error)
-    return NextResponse.json({ success: false, message: 'Nieprawidłowy login lub hasło' }, { status: 401 })
+    return NextResponse.json({ success: false, message: 'Invalid username or password' }, { status: 401 })
   }
 }
-

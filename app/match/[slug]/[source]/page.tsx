@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { notFound } from "next/navigation"
 
-interface Channel {
+interface Match {
   id: string
   name: string
   slug: string
@@ -12,12 +12,12 @@ interface Channel {
   imageUrl?: string
 }
 
-export default function ChannelPage() {
+export default function MatchPage() {
   const params = useParams()
   const router = useRouter()
   const slug = params.slug as string
   const sourceParam = params.source as string
-  const [channel, setChannel] = useState<Channel | null>(null)
+  const [match, setMatch] = useState<Match | null>(null)
   const [loading, setLoading] = useState(true)
   const [selectedSource, setSelectedSource] = useState(0)
   const [mounted, setMounted] = useState(false)
@@ -25,22 +25,22 @@ export default function ChannelPage() {
 
   useEffect(() => {
     setMounted(true)
-    fetchChannel()
+    fetchMatch()
   }, [slug, sourceParam])
 
-  const fetchChannel = async () => {
+  const fetchMatch = async () => {
     try {
-      const response = await fetch(`/api/channels/${slug}`)
+      const response = await fetch(`/api/matches/${slug}`)
       if (response.status === 404) {
         notFound()
         return
       }
       const data = await response.json()
-      if (data.channel) {
-        setChannel(data.channel)
+      if (data.match) {
+        setMatch(data.match)
         
         const sourceIndex = parseInt(sourceParam) - 1
-        if (sourceIndex >= 0 && sourceIndex < data.channel.sources.length) {
+        if (sourceIndex >= 0 && sourceIndex < data.match.sources.length) {
           setSelectedSource(sourceIndex)
           setSourceNotFound(false)
         } else {
@@ -48,7 +48,7 @@ export default function ChannelPage() {
         }
       }
     } catch (error) {
-      console.error('Error fetching channel:', error)
+      console.error('Error fetching match:', error)
     } finally {
       setLoading(false)
     }
@@ -56,18 +56,18 @@ export default function ChannelPage() {
 
   const handleSourceChange = (index: number) => {
     setSelectedSource(index)
-    router.push(`/channel/${slug}/${index + 1}`, { scroll: false })
+    router.push(`/match/${slug}/${index + 1}`, { scroll: false })
   }
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4">
-        <div className="text-muted-foreground">Ładowanie...</div>
+        <div className="text-muted-foreground">Loading...</div>
       </div>
     )
   }
 
-  if (!channel) {
+  if (!match) {
     return notFound()
   }
 
@@ -96,20 +96,20 @@ export default function ChannelPage() {
           <p className={`text-muted-foreground text-base md:text-lg lg:text-xl mb-2 transition-all duration-700 delay-150 ease-out ${
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}>
-            Nie ma takiego źródła
+            Source not found
           </p>
           <p className={`text-muted-foreground text-sm md:text-base mb-8 transition-all duration-700 delay-150 ease-out ${
             mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}>
-            Kanał {channel.name} ma tylko {channel.sources.length} {channel.sources.length === 1 ? 'źródło' : channel.sources.length < 5 ? 'źródła' : 'źródeł'}
+            Match {match.name} has only {match.sources.length} {match.sources.length === 1 ? 'source' : 'sources'}
           </p>
           <button
-            onClick={() => router.push(`/channel/${slug}/1`)}
+            onClick={() => router.push(`/match/${slug}/1`)}
             className={`inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 transition-all duration-700 delay-200 ease-out ${
               mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            Przejdź do źródła 1
+            Go to source 1
           </button>
         </div>
       </div>
@@ -126,13 +126,13 @@ export default function ChannelPage() {
             }`}
           >
             <p className="text-primary text-xs md:text-sm font-medium tracking-[0.2em] uppercase mb-3 md:mb-4">
-              KANAŁ
+              MECZ
             </p>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-foreground tracking-tight mb-4 md:mb-6">
-              {channel.name}
+              {match.name}
             </h1>
             <p className="text-muted-foreground text-base md:text-lg">
-              Transmisja na żywo
+              Live stream
             </p>
           </div>
 
@@ -144,7 +144,7 @@ export default function ChannelPage() {
             <div className="flex-1 order-2 lg:order-1">
               <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                 <iframe
-                  src={channel.sources[selectedSource]}
+                  src={match.sources[selectedSource]}
                   className="absolute top-0 left-0 w-full h-full rounded-xl md:rounded-2xl border border-border/30 bg-background"
                   allowFullScreen
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -153,9 +153,9 @@ export default function ChannelPage() {
             </div>
 
             <div className="w-full lg:w-64 flex flex-col gap-3 md:gap-4 order-1 lg:order-2">
-              <h2 className="text-base md:text-lg font-bold text-foreground mb-0">Źródła</h2>
+              <h2 className="text-base md:text-lg font-bold text-foreground mb-0">Sources</h2>
               <div className="grid grid-cols-2 sm:flex sm:flex-row lg:flex-col gap-2 md:gap-3">
-                {channel.sources.map((source, index) => (
+                {match.sources.map((source, index) => (
                   <button
                     key={index}
                     onClick={() => handleSourceChange(index)}
@@ -165,7 +165,7 @@ export default function ChannelPage() {
                         : 'bg-secondary/50 border-border/50 text-foreground hover:bg-secondary active:scale-95'
                     }`}
                   >
-                    Źródło {index + 1}
+                    Source {index + 1}
                   </button>
                 ))}
               </div>
