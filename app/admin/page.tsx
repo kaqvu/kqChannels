@@ -56,13 +56,12 @@ export default function AdminPage() {
   }, [])
 
   useEffect(() => {
-    if (!loading) {
-      const timer = setTimeout(() => {
-        setMounted(true)
-      }, 500)
-      return () => clearTimeout(timer)
-    }
-  }, [loading])
+    setMounted(false)
+    const timer = setTimeout(() => {
+      setMounted(true)
+    }, 150)
+    return () => clearTimeout(timer)
+  }, [isLoggedIn])
 
   const fetchChannels = async () => {
     try {
@@ -313,7 +312,11 @@ export default function AdminPage() {
           
           <section className="py-16 px-4 md:px-8 relative z-10">
             <div className="max-w-4xl mx-auto">
-              <div className="mb-12 md:mb-16">
+              <div 
+                className={`mb-12 md:mb-16 transition-all duration-500 ${
+                  mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+              >
                 <div className="mb-6">
                   <div className="flex items-start justify-between gap-4 mb-3 md:mb-4">
                     <p className="text-primary text-xs md:text-sm font-medium tracking-[0.2em] uppercase">
@@ -335,7 +338,11 @@ export default function AdminPage() {
                 </div>
               </div>
             
-              <div className="space-y-4">
+              <div 
+                className={`transition-all duration-500 delay-75 ${
+                  mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+              >
                 <div className="space-y-4">
                   <div className="rounded-2xl bg-gradient-to-br from-secondary/40 via-secondary/30 to-secondary/20 border border-border/40 p-4 md:p-6 backdrop-blur-sm">
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
@@ -559,15 +566,8 @@ export default function AdminPage() {
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center px-4 bg-gradient-to-b from-background via-background to-secondary/10">
-        <div 
-          className="w-full max-w-sm"
-          style={{ 
-            opacity: mounted ? 1 : 0,
-            transition: 'opacity 3s linear',
-            willChange: 'opacity'
-          }}
-        >
+      <div className="min-h-screen flex items-center justify-center px-4">
+        <div className="w-full max-w-sm">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-foreground mb-3">
               kqChannels
@@ -578,42 +578,50 @@ export default function AdminPage() {
           </div>
 
           <form onSubmit={handleLogin} className="space-y-5">
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-foreground mb-2">
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-secondary/30 border border-border/30 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:bg-secondary/50 transition-all duration-200"
-                placeholder="Enter your username"
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-foreground mb-2">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-secondary/30 border border-border/30 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:bg-secondary/50 transition-all duration-200"
-                placeholder="Enter your password"
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full px-6 py-3.5 rounded-xl bg-primary text-primary-foreground font-medium transition-all duration-200 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 active:scale-[0.98] touch-action-manipulation mt-8"
+            <div 
+              className={`transition-all duration-500 delay-75 ease-out ${
+                mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+              }`}
             >
-              Sign in
-            </button>
+              <div className="space-y-5">
+                <div>
+                  <label htmlFor="username" className="block text-sm font-medium text-foreground mb-2">
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-secondary/30 border border-border/30 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:bg-secondary/50 transition-all duration-200"
+                    placeholder="Enter your username"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="password" className="block text-sm font-medium text-foreground mb-2">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl bg-secondary/30 border border-border/30 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 focus:bg-secondary/50 transition-all duration-200"
+                    placeholder="Enter your password"
+                    required
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full px-6 py-3.5 rounded-xl bg-primary text-primary-foreground font-medium transition-all duration-200 hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25 active:scale-[0.98] touch-action-manipulation mt-8"
+              >
+                Sign in
+              </button>
+            </div>
           </form>
 
           <p className="text-center text-xs text-muted-foreground/60 mt-8">
