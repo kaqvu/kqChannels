@@ -185,9 +185,14 @@ export default function ChannelPage() {
               mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
-            <p className="text-primary text-xs md:text-sm font-medium tracking-[0.2em] uppercase mb-3 md:mb-4">
-              KANAŁ
-            </p>
+            <div className="flex items-center gap-4 mb-3 md:mb-4">
+              <span className="text-primary text-xs md:text-sm font-medium tracking-[0.2em] uppercase">
+                KANAŁ
+              </span>
+              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
+                LIVE
+              </span>
+            </div>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-foreground tracking-tight mb-4 md:mb-6">
               {channel.name}
             </h1>
@@ -197,46 +202,57 @@ export default function ChannelPage() {
           </div>
 
           <div 
-            className={`flex flex-col lg:flex-row gap-4 md:gap-6 transition-all duration-700 delay-150 ease-out ${
+            className={`transition-all duration-700 delay-150 ease-out ${
               mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
             }`}
           >
-            <div className="flex-1 order-2 lg:order-1">
-              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-                {iframeLoading && (
-                  <div className="absolute top-0 left-0 w-full h-full rounded-xl md:rounded-2xl bg-secondary/30 border border-border/30 flex items-center justify-center z-10">
-                    <Loader2 className="w-12 h-12 text-primary animate-spin" />
+            <div className="mb-4 md:mb-6">
+              <h2 className="text-sm md:text-base font-bold uppercase tracking-wider text-muted-foreground mb-3">
+                ŹRÓDŁA
+              </h2>
+              <div className="flex flex-wrap gap-3">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-secondary/30 border border-border/40">
+                  <span className="text-primary font-bold uppercase tracking-wider text-xs">
+                    ŹRÓDŁO
+                  </span>
+                  <div className="h-4 w-px bg-border/50" />
+                  <div className="flex gap-1.5">
+                    {channel.sources.map((source, index) => (
+                      <button
+                        key={index}
+                        onClick={() => handleSourceChange(index)}
+                        className={`w-8 h-8 rounded-lg text-xs font-bold transition-all duration-200 touch-action-manipulation ${
+                          selectedSource === index
+                            ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/30'
+                            : 'bg-secondary/50 text-muted-foreground hover:bg-secondary active:scale-90'
+                        }`}
+                      >
+                        {index + 1}
+                      </button>
+                    ))}
                   </div>
-                )}
-                <iframe
-                  key={selectedSource}
-                  src={channel.sources[selectedSource]}
-                  className="absolute top-0 left-0 w-full h-full rounded-xl md:rounded-2xl border border-border/30 bg-background transition-opacity duration-300"
-                  style={{ opacity: iframeLoading ? 0 : 1 }}
-                  allowFullScreen
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  onLoad={() => setIframeLoading(false)}
-                />
+                </div>
               </div>
             </div>
 
-            <div className="w-full lg:w-64 flex flex-col gap-3 md:gap-4 order-1 lg:order-2">
-              <h2 className="text-base md:text-lg font-bold text-foreground mb-0">Źródła</h2>
-              <div className="grid grid-cols-2 sm:flex sm:flex-row lg:flex-col gap-2 md:gap-3">
-                {channel.sources.map((source, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleSourceChange(index)}
-                    className={`px-3 md:px-4 py-2.5 md:py-3 rounded-lg text-center lg:text-left text-sm md:text-base font-medium transition-all duration-300 ease-out border touch-action-manipulation will-change-transform ${
-                      selectedSource === index
-                        ? 'bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20 scale-105'
-                        : 'bg-secondary/50 border-border/50 text-foreground hover:bg-secondary hover:scale-105 hover:shadow-md active:scale-95'
-                    }`}
-                  >
-                    Źródło {index + 1}
-                  </button>
-                ))}
-              </div>
+            <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+              {iframeLoading && (
+                <div 
+                  className="absolute top-0 left-0 w-full h-full rounded-xl md:rounded-2xl bg-secondary/30 border border-border/30 flex items-center justify-center transition-all duration-500"
+                  style={{ zIndex: iframeLoading ? 20 : 0, opacity: iframeLoading ? 1 : 0 }}
+                >
+                  <Loader2 className="w-12 h-12 text-primary animate-spin" />
+                </div>
+              )}
+              <iframe
+                key={selectedSource}
+                src={channel.sources[selectedSource]}
+                className="absolute top-0 left-0 w-full h-full rounded-xl md:rounded-2xl border border-border/30 bg-background transition-opacity duration-700"
+                style={{ opacity: iframeLoading ? 0 : 1 }}
+                allowFullScreen
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                onLoad={() => setIframeLoading(false)}
+              />
             </div>
           </div>
         </div>
