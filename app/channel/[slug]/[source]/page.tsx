@@ -19,27 +19,19 @@ function PageSkeleton() {
       <section className="py-16 px-4 md:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-12 md:mb-16 animate-pulse">
-            <div className="h-4 bg-secondary/50 rounded w-20 mb-3" />
-            <div className="h-12 md:h-16 bg-secondary/50 rounded w-3/4 mb-4" />
-            <div className="h-6 bg-secondary/50 rounded w-1/2" />
+            <div className="h-4 bg-secondary/50 rounded w-20 mb-3 md:mb-4" />
+            <div className="h-12 md:h-16 bg-secondary/50 rounded w-3/4 mb-4 md:mb-6" />
+            <div className="h-5 bg-secondary/50 rounded w-1/3" />
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-4 md:gap-6">
-            <div className="flex-1 order-2 lg:order-1">
-              <div className="relative w-full animate-pulse" style={{ paddingBottom: '56.25%' }}>
-                <div className="absolute top-0 left-0 w-full h-full rounded-xl md:rounded-2xl bg-secondary/30 border border-border/30 flex items-center justify-center">
-                  <Loader2 className="w-12 h-12 text-primary animate-spin" />
-                </div>
-              </div>
-            </div>
+          <div className="mb-4 md:mb-6 animate-pulse">
+            <div className="h-4 bg-secondary/50 rounded w-16 mb-3" />
+            <div className="h-10 bg-secondary/30 rounded-xl w-48" />
+          </div>
 
-            <div className="w-full lg:w-64 flex flex-col gap-3 md:gap-4 order-1 lg:order-2 animate-pulse">
-              <div className="h-6 bg-secondary/50 rounded w-20" />
-              <div className="grid grid-cols-2 sm:flex sm:flex-row lg:flex-col gap-2 md:gap-3">
-                {[...Array(3)].map((_, i) => (
-                  <div key={i} className="h-12 bg-secondary/30 rounded-lg" />
-                ))}
-              </div>
+          <div className="relative w-full animate-pulse" style={{ paddingBottom: '56.25%' }}>
+            <div className="absolute top-0 left-0 w-full h-full rounded-xl md:rounded-2xl bg-secondary/30 border border-border/30 flex items-center justify-center">
+              <Loader2 className="w-12 h-12 text-primary animate-spin" />
             </div>
           </div>
         </div>
@@ -188,9 +180,6 @@ export default function ChannelPage() {
             <div className="flex items-center gap-4 mb-3 md:mb-4">
               <span className="text-primary text-xs md:text-sm font-medium tracking-[0.2em] uppercase">
                 KANAŁ
-              </span>
-              <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
-                LIVE
               </span>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold text-foreground tracking-tight mb-4 md:mb-6">
