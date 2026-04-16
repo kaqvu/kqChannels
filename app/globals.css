@@ -121,6 +121,10 @@
   * {
     @apply border-border outline-ring/50;
   }
+  *[class*="translate-y"],
+  *[class*="transition-all"] {
+    outline: none !important;
+  }
   html {
     -ms-overflow-style: none;
     scrollbar-width: none;
